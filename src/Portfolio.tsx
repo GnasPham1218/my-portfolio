@@ -1,5 +1,5 @@
 import { useState } from "react";
-import avatarImg from "./assets/avatar.png"; // Make sure this path matches your file structure
+import avatarImg from "./assets/avatar.png";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface Tech {
@@ -10,6 +10,7 @@ interface Tech {
 interface ProjectLink {
   label: string;
   url: string;
+  isPlaceholder?: boolean;
 }
 
 interface Project {
@@ -19,7 +20,7 @@ interface Project {
   startDate: string;
   endDate: string;
   role: string;
-  teamSize: number; // Added team size
+  teamSize: number;
   features: string[];
   contributions: string[];
   tags: string[];
@@ -27,7 +28,6 @@ interface Project {
 }
 
 // ─── Tech Icons (inline SVG) ──────────────────────────────────────────────────
-// (Kept exactly as your original code to preserve your custom icons)
 const TechIcons: Record<string, { color: string; svg: React.ReactNode }> = {
   JavaScript: {
     color: "#F7DF1E",
@@ -187,6 +187,29 @@ const TechIcons: Record<string, { color: string; svg: React.ReactNode }> = {
       </svg>
     ),
   },
+  Dart: {
+    color: "#00B4AB",
+    svg: (
+      <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0">
+        <path
+          d="M4.105 4.105S9.158 1.58 11.684.316a3.079 3.079 0 0 1 1.481-.316 3.08 3.08 0 0 1 2.196.917l7.063 7.064L18.75 9.65 4.105 4.105zm14.74 9.545L14.76 9.56 4.105 4.105 18.845 18.84l.001-.001-.001-5.189zm-5.386 5.386L9.36 14.94l-5.255 5.255A3.08 3.08 0 0 0 6.28 21.47l7.064-7.063-5.581-5.58zM4.105 19.895L4.104 4.104 2.84 5.37A3.08 3.08 0 0 0 2.84 9.72l5.58 5.58-4.315 4.595z"
+          fill="#00B4AB"
+        />
+      </svg>
+    ),
+  },
+
+  FastAPI: {
+    color: "#009688",
+    svg: (
+      <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0">
+        <path
+          d="M12 0C5.375 0 0 5.375 0 12c0 6.627 5.375 12 12 12 6.626 0 12-5.373 12-12 0-6.625-5.374-12-12-12zm-.624 21.62v-7.528H7.19L13.203 2.38v7.528h4.029L11.376 21.62z"
+          fill="#009688"
+        />
+      </svg>
+    ),
+  },
   Supabase: {
     color: "#3ECF8E",
     svg: (
@@ -253,6 +276,17 @@ const TechIcons: Record<string, { color: string; svg: React.ReactNode }> = {
       </svg>
     ),
   },
+  Firebase: {
+    color: "#FFCA28",
+    svg: (
+      <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0">
+        <path
+          d="M3.89 15.672L6.255.461A.542.542 0 0 1 7.27.288l2.543 4.771zm16.794 3.692l-2.25-14a.54.54 0 0 0-.919-.295L3.316 19.365l7.856 4.427a1.621 1.621 0 0 0 1.588 0zM14.3 7.147l-1.82-3.482a.542.542 0 0 0-.96 0L3.53 17.984z"
+          fill="#FFCA28"
+        />
+      </svg>
+    ),
+  },
 };
 
 const TECHS = Object.entries(TechIcons).map(([name, { color, svg }]) => ({
@@ -261,6 +295,7 @@ const TECHS = Object.entries(TechIcons).map(([name, { color, svg }]) => ({
   icon: svg,
 }));
 
+// ─── Skill Categories (updated to match CV) ───────────────────────────────────
 const SKILL_CATEGORIES = [
   {
     title: "Programming Languages",
@@ -268,7 +303,14 @@ const SKILL_CATEGORIES = [
   },
   {
     title: "Frameworks & Libraries",
-    skills: ["React", "React Native", "Tailwind CSS", "Spring Boot"],
+    skills: [
+      "React",
+      "React Native",
+      "Flutter",
+      "Spring Boot",
+      "FastAPI",
+      "Tailwind CSS",
+    ],
   },
   {
     title: "Databases & DevOps",
@@ -276,28 +318,38 @@ const SKILL_CATEGORIES = [
   },
 ];
 
+// ─── Projects (updated to match CV — 3 projects) ─────────────────────────────
 const PROJECTS: Project[] = [
   {
     num: "01",
     title: "Organic Food Ecosystem",
     description:
-      "A comprehensive e-commerce platform for organic food, featuring a React customer web app, a Spring Boot admin dashboard, and a fully-featured Expo/React Native mobile app.",
+      "A comprehensive multi-platform e-commerce ecosystem for organic food — featuring a React customer web app, a Spring Boot backend with Admin Dashboard, and a fully-featured Expo/React Native mobile app.",
     startDate: "10/2025",
     endDate: "12/2025",
     role: "Team Leader & Fullstack Developer",
     teamSize: 2,
     features: [
-      "Cross-platform shopping experience with synchronized cart, checkout, and order history",
-      "Comprehensive Admin Dashboard for managing inventory, vouchers, and user roles",
-      "Secure authentication (OAuth2) and seamless online checkout via PayOS",
+      "Core e-commerce flow: Product Lists, Shopping Cart, and streamlined Checkout process",
+      "Member registration, secure login, and discount voucher management",
+      "Admin Dashboard for monitoring transactions, managing inventory, and tracking order status",
+      "Seamless data synchronization between Spring Boot backend and both Web & Mobile platforms",
     ],
     contributions: [
-      "Led the development team, designed the system architecture, and mapped out business logic workflows",
-      "Developed the entire mobile application from scratch using Expo, React Native, and Tailwind",
-      "Designed the relational database, developed Spring Boot RESTful APIs, and integrated the PayOS payment gateway",
-      "Scraped and seeded the database with over 1,000 real product records from Organicfood.vn",
+      "Architected system logic and designed MySQL database schemas for products, categories, and orders",
+      "Built RESTful APIs with Spring Boot and integrated them with React frontend for product catalog and user actions",
+      "Integrated PayOS automated payment gateway and implemented SMTP Email for registration",
+      "Independently developed the entire React Native app from UI/UX design to API integration, covering the full shopping flow",
+      "Built a Python-based crawler to collect 1,000+ organic product listings, then used AI (LLM) to auto-generate product descriptions",
     ],
-    tags: ["React Native", "Spring Boot", "React", "PayOS"],
+    tags: [
+      "Java 17",
+      "Spring Boot 3",
+      "React 19",
+      "React Native",
+      "MySQL",
+      "PayOS",
+    ],
     links: [
       {
         label: "GitHub (Web)",
@@ -311,33 +363,33 @@ const PROJECTS: Project[] = [
         label: "Docs",
         url: "https://drive.google.com/drive/folders/1WK8CZlc5E5fOhbUE0MzXQA5yonfkb-F7?usp=drive_link",
       },
-      { label: "Live Demo", url: "#" },
     ],
   },
-
   {
-    num: "03",
+    num: "02",
     title: "FishFeeder Extended (IoT)",
     description:
-      "A complete IoT ecosystem for automated fish feeding, featuring an ESP32-powered hardware dispenser and a real-time web dashboard connected via secure MQTT.",
+      "A complete IoT ecosystem for automated fish feeding — featuring an ESP32-powered hardware dispenser and a real-time web dashboard connected via secure MQTT over TLS/SSL.",
     startDate: "10/2025",
     endDate: "11/2025",
     role: "IoT & Web Developer",
     teamSize: 1,
     features: [
-      "Automated feeding schedules with RTC DS3231 and persistent device storage",
-      "Real-time remote monitoring (temperature, food levels) and manual overrides",
-      "Interactive web dashboard with historical data visualization using Chart.js",
+      "Remote control: Manual 'Feed Now' trigger and configurable servo rotation duration/count via Web",
+      "Smart automation: Scheduled feeding times with Add/Remove functionality and Auto-Mode toggle",
+      "Real-time monitoring: Live updates for food level, temperature, and daily feed count with low-food alerts",
+      "Persistent storage: Synchronization of feeding schedules and device states between ESP32 and cloud",
     ],
     contributions: [
-      "Programmed the ESP32 firmware in C++ to manage sensors, the servo motor, and the OLED display",
-      "Configured a secure, bi-directional SSL/TLS MQTT communication pipeline via HiveMQ Cloud",
-      "Built the client-side web dashboard using Vanilla JavaScript, HTML/CSS, and Paho MQTT",
+      "Developed ESP32 firmware in C++ to control a servo motor dispensing system and integrated OLED SSD1306 for status display",
+      "Implemented RTC DS3231 and Preferences library to ensure precise scheduling and data persistence during power loss",
+      "Architected a real-time communication bridge using MQTT (TLS/SSL) via HiveMQ Cloud for secure data exchange",
+      "Built a Web Dashboard using Paho MQTT JS and Chart.js to visualize temperature history and manage feeding logs",
     ],
-    tags: ["IoT", "ESP32", "C++", "MQTT", "JavaScript"],
+    tags: ["ESP32", "C++", "MQTT", "HiveMQ", "Chart.js", "JavaScript"],
     links: [
       {
-        label: "GitHub Repository",
+        label: "GitHub",
         url: "https://github.com/GnasPham1218/Automatic_Feed_Fish",
       },
       {
@@ -349,6 +401,30 @@ const PROJECTS: Project[] = [
         url: "https://drive.google.com/file/d/1z_ucfc0XvqAFOyc4vMbnFrYKN8630FC3/view?usp=sharing",
       },
     ],
+  },
+  {
+    num: "03",
+    title: "Smart English Learning App",
+    description:
+      "A cross-platform mobile application for learning English vocabulary, built with Flutter & Firebase — featuring Oxford 3000+ word sets, quiz modules, spaced-repetition tracking, and daily notification reminders.",
+    startDate: "04/2025",
+    endDate: "06/2025",
+    role: "Mobile Developer",
+    teamSize: 2,
+    features: [
+      "Seamless onboarding and secure authentication via Firebase Auth",
+      "Personalized vocabulary tracking: learned words, streaks, and custom word lists",
+      "Integrated English-Vietnamese dictionary and text translation using online APIs",
+      "Cross-platform performance (Android/iOS) with synchronized user data via Cloud Firestore",
+    ],
+    contributions: [
+      "Developed a Python-based crawler to extract the Oxford 3000+ vocabulary set (meanings, examples, audio)",
+      "Designed and implemented the Cloud Firestore database schema for user progress and vocabulary storage",
+      "Built the Quiz Module featuring multiple-choice and listening exercises with personalized vocabulary lists",
+      "Implemented Local Notifications for daily reminders with customizable scheduling",
+    ],
+    tags: ["Flutter", "Dart", "Firebase", "Oxford API", "Python"],
+    links: [{ label: "GitHub", url: "https://github.com/DinhHoz/tienganh" }],
   },
 ];
 
@@ -380,6 +456,15 @@ const SOCIAL_LINKS = [
       </svg>
     ),
   },
+  {
+    name: "Phone",
+    url: "tel:+84903915722",
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor">
+        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+      </svg>
+    ),
+  },
 ];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -391,13 +476,9 @@ function SkillChip({ tech }: { tech: Tech }) {
         transition-all duration-200 hover:-translate-y-0.5 cursor-default
         bg-white dark:bg-zinc-900 border-black/[0.08] dark:border-white/[0.08]
         text-zinc-800 dark:text-zinc-200"
-      style={{ "--chip-color": tech.color } as React.CSSProperties}
     >
       {tech.icon}
       <span>{tech.name}</span>
-      <style>{`
-        .skill-group:hover { border-color: var(--chip-color) !important; }
-      `}</style>
     </div>
   );
 }
@@ -405,13 +486,12 @@ function SkillChip({ tech }: { tech: Tech }) {
 function ProjectRow({ project }: { project: Project }) {
   return (
     <div className="flex flex-col lg:flex-row gap-8 py-10 border-b border-black/[0.08] dark:border-white/[0.08] last:border-0 group relative hover:bg-black/[0.01] dark:hover:bg-white/[0.01] rounded-2xl transition-colors md:p-10 -mx-10">
-      {/* ── Left Column: Time, Badges, Tags ── */}
+      {/* ── Left Column ── */}
       <div className="w-full lg:w-1/4 shrink-0 flex flex-col items-start px-10 md:px-0">
         <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-3">
           {project.startDate} — {project.endDate}
         </p>
 
-        {/* Role & Team Size Badges */}
         <div className="flex flex-col gap-2 mb-6">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-100 dark:border-sky-500/20">
             <svg
@@ -460,7 +540,7 @@ function ProjectRow({ project }: { project: Project }) {
         </div>
       </div>
 
-      {/* ── Right Column: Details ── */}
+      {/* ── Right Column ── */}
       <div className="w-full lg:w-3/4 flex flex-col px-10 md:px-0">
         <h3 className="font-display text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3 group-hover:text-sky-500 transition-colors">
           {project.title}
@@ -613,25 +693,25 @@ export default function Portfolio() {
     setDark((d) => !d);
     document.documentElement.classList.toggle("dark");
   };
+
   const handleCopyEmail = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault(); // Ngăn trình duyệt mở mailto:
-    navigator.clipboard.writeText("gnasai1218@gmail.com"); // Thay email của bạn vào đây nếu cần
+    e.preventDefault();
+    navigator.clipboard.writeText("gnasai1218@gmail.com");
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000); // Trở lại bình thường sau 2 giây
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <div className={dark ? "dark" : ""}>
-      {/* Unified bg-zinc-50 for a clean, consistent light mode */}
       <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-300 font-sans w-full">
         {/* ── Navbar ── */}
         <nav className="sticky top-0 z-50 border-b border-black/[0.08] dark:border-white/[0.08] bg-zinc-50/90 dark:bg-zinc-950/90 backdrop-blur w-full">
           <div className="w-full px-6 md:px-12 lg:px-24 xl:px-32 h-14 flex items-center justify-between">
             <span className="font-display text-lg font-extrabold tracking-tight">
-              Sang<span className="text-sky-500">.</span>
+              Pham Thanh Phuoc Sang<span className="text-sky-500">.</span>
             </span>
             <ul className="hidden md:flex gap-8 text-sm font-medium text-zinc-500 dark:text-zinc-400">
-              {["Skills", "Projects", "About"].map((item) => (
+              {["About", "Skills", "Projects"].map((item) => (
                 <li key={item}>
                   <a
                     href={`#${item.toLowerCase()}`}
@@ -642,17 +722,15 @@ export default function Portfolio() {
                 </li>
               ))}
             </ul>
-            {/* Theme toggle */}
             <button
               onClick={toggleTheme}
               aria-label="Toggle dark mode"
-              className="relative w-13 h-7 rounded-full transition-colors duration-300 flex items-center px-1
+              className="relative h-7 rounded-full transition-colors duration-300 flex items-center px-1
                 bg-white dark:bg-zinc-800 border border-black/[0.08] dark:border-white/[0.08] shadow-sm"
               style={{ width: 52 }}
             >
               <span
-                className="w-5 h-5 rounded-full bg-sky-500 flex items-center justify-center text-[10px] text-white
-                  transition-transform duration-300 shadow-sm"
+                className="w-5 h-5 rounded-full bg-sky-500 flex items-center justify-center text-[10px] text-white transition-transform duration-300 shadow-sm"
                 style={{
                   transform: dark ? "translateX(24px)" : "translateX(0)",
                 }}
@@ -666,58 +744,139 @@ export default function Portfolio() {
         {/* ── Hero ── */}
         <header className="w-full px-6 md:px-12 lg:px-24 xl:px-32 pt-24 pb-16 flex flex-col-reverse lg:flex-row lg:justify-between gap-12 lg:gap-24 items-center">
           <div className="max-w-3xl flex-1 text-center lg:text-left flex flex-col items-center lg:items-start">
-            {/* Open badge */}
-            <div
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[13px] font-medium mb-6
-              bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20"
-            >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[13px] font-medium mb-6 bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
               <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse" />
               Open to opportunities
             </div>
 
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-[-0.04em] mb-6">
-              Hi, I'm <em className="not-italic text-sky-500">Sang</em>
-              <br />
-              Pham Gnas
+              Hi, I'm{" "}
+              <em className="not-italic text-sky-500">
+                Pham Thanh Phuoc Sang{" "}
+              </em>
+              (Gnas Pham)
             </h1>
 
             <p className="text-base md:text-lg font-light text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed mb-10">
-              Fresh Software Engineering graduate from HUIT. I build things from
-              Frontend to Backend — fast, clean, and thoughtful. Based in Ho Chi
-              Minh City.
+              Fresh Software Engineering graduate from HUIT with a strong focus
+              on Full-Stack development. Proficient in Java Spring Boot and
+              React. Experienced in IoT integration and data crawling. Based in
+              Ho Chi Minh City.
             </p>
 
             <div className="flex gap-4 flex-wrap justify-center lg:justify-start">
               <a
-                href="#"
-                className="inline-flex items-center gap-1.5 px-6 py-3 rounded-lg text-sm font-semibold text-white
-                  bg-sky-500 hover:bg-sky-400 transition-colors shadow-sm shadow-sky-500/20"
+                href="https://your-google-drive-link-to-resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-6 py-3 rounded-lg text-sm font-semibold text-white bg-sky-500 hover:bg-sky-400 transition-colors shadow-sm shadow-sky-500/20"
               >
                 View Resume ↗
               </a>
               <a
-                href="#"
-                className="inline-flex items-center gap-1.5 px-6 py-3 rounded-lg text-sm font-semibold
-                  bg-white dark:bg-zinc-900 border border-black/[0.08] dark:border-white/[0.08] hover:border-sky-500 hover:text-sky-500
-                  transition-colors shadow-sm"
+                href="#footer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document
+                    .getElementById("footer")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="inline-flex items-center gap-1.5 px-6 py-3 rounded-lg text-sm font-semibold bg-white dark:bg-zinc-900 border border-black/[0.08] dark:border-white/[0.08] hover:border-sky-500 hover:text-sky-500 transition-colors shadow-sm"
               >
                 Get in Touch
               </a>
             </div>
           </div>
 
-          {/* Avatar */}
-          <div
-            className="w-56 h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-96 xl:h-96 rounded-full flex items-center justify-center shrink-0
-            bg-white dark:bg-zinc-900 border border-black/[0.08] dark:border-white/[0.08] overflow-hidden shadow-2xl"
-          >
+          <div className="w-56 h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-96 xl:h-96 rounded-full flex items-center justify-center shrink-0 bg-white dark:bg-zinc-900 border border-black/[0.08] dark:border-white/[0.08] overflow-hidden shadow-2xl">
             <img
               src={avatarImg}
-              alt="Sang (Pham Gnas)"
+              alt="Pham Thanh Phuoc Sang"
               className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
             />
           </div>
         </header>
+
+        {/* ── About ── */}
+        <section
+          id="about"
+          className="w-full px-6 md:px-12 lg:px-24 xl:px-32 py-16 md:py-24 bg-white/[0.3] dark:bg-zinc-900/[0.2]"
+        >
+          <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-sky-500 mb-2">
+            Background
+          </p>
+          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-10">
+            About Me
+          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start max-w-7xl">
+            <div className="space-y-6 text-base md:text-lg font-light text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              <p>
+                I'm a{" "}
+                <strong className="text-zinc-900 dark:text-zinc-100 font-semibold">
+                  fresh Software Engineering graduate
+                </strong>{" "}
+                from HUIT (Ho Chi Minh City University of Industry and Trade),
+                with a GPA of 3.3/4.0.
+              </p>
+              <p>
+                I enjoy working across the full stack — from crafting clean UI
+                in React & Flutter to designing scalable APIs in Spring Boot.
+                I'm also experienced in IoT development (ESP32/MQTT) and
+                Python-based data crawling.
+              </p>
+              <p>
+                Currently based in{" "}
+                <strong className="text-zinc-900 dark:text-zinc-100 font-semibold">
+                  Ho Chi Minh City
+                </strong>{" "}
+                and actively looking for my first full-time role. English level:
+                B2.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { num: "3", label: "Projects shipped" },
+                { num: "3.3", label: "GPA / 4.0" },
+                { num: "Full", label: "Stack developer" },
+                { num: "2026", label: "Fresh graduate" },
+              ].map(({ num, label }) => (
+                <div
+                  key={label}
+                  className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-black/[0.04] dark:border-white/[0.04] shadow-sm"
+                >
+                  <p className="font-display text-4xl font-extrabold text-sky-500">
+                    {num}
+                  </p>
+                  <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mt-2">
+                    {label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Education Block */}
+          <div className="mt-12 max-w-7xl">
+            <h3 className="text-lg font-semibold text-zinc-800 dark:text-zinc-200 mb-4 flex items-center gap-2">
+              <span className="w-1 h-5 rounded-full bg-sky-500" />
+              Education
+            </h3>
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-black/[0.04] dark:border-white/[0.04] p-6 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <div>
+                <p className="font-semibold text-zinc-900 dark:text-zinc-100">
+                  Ho Chi Minh City University of Industry and Trade (HUIT)
+                </p>
+                <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+                  Bachelor of Software Engineering &nbsp;·&nbsp; GPA 3.3 / 4.0
+                </p>
+              </div>
+              <span className="text-sm font-medium text-zinc-400 dark:text-zinc-500 shrink-0">
+                2022 – 2026
+              </span>
+            </div>
+          </div>
+        </section>
 
         <div className="w-full border-t border-black/[0.06] dark:border-white/[0.06]" />
 
@@ -739,13 +898,10 @@ export default function Portfolio() {
                 key={category.title}
                 className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8"
               >
-                {/* Category Title */}
                 <h3 className="md:w-56 shrink-0 text-lg font-semibold text-zinc-800 dark:text-zinc-200 pt-2 border-b-2 md:border-b-0 md:border-l-2 border-sky-500/30 md:pl-4 pb-2 md:pb-0">
                   {category.title}
                 </h3>
-
-                {/* Category Skills */}
-                <div className="flex flex-wrap gap-3 skill-group flex-1">
+                <div className="flex flex-wrap gap-3 flex-1">
                   {category.skills.map((skillName) => {
                     const tech = TECHS.find((t) => t.name === skillName);
                     return tech ? (
@@ -755,6 +911,23 @@ export default function Portfolio() {
                 </div>
               </div>
             ))}
+
+            {/* Tools row */}
+            <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
+              <h3 className="md:w-56 shrink-0 text-lg font-semibold text-zinc-800 dark:text-zinc-200 pt-2 border-b-2 md:border-b-0 md:border-l-2 border-sky-500/30 md:pl-4 pb-2 md:pb-0">
+                Tools & Languages
+              </h3>
+              <div className="flex flex-wrap gap-3 flex-1">
+                {["Git", "Postman"].map((tool) => (
+                  <div
+                    key={tool}
+                    className="flex items-center gap-2.5 px-4 py-2 rounded-xl border text-sm font-medium bg-white dark:bg-zinc-900 border-black/[0.08] dark:border-white/[0.08] text-zinc-800 dark:text-zinc-200"
+                  >
+                    {tool}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
@@ -772,7 +945,6 @@ export default function Portfolio() {
             <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-12">
               Featured Projects
             </h2>
-
             <div className="flex flex-col space-y-4">
               {PROJECTS.map((project) => (
                 <ProjectRow key={project.num} project={project} />
@@ -781,81 +953,25 @@ export default function Portfolio() {
           </div>
         </section>
 
-        <div className="w-full border-t border-black/[0.06] dark:border-white/[0.06]" />
-
-        {/* ── About ── */}
-        <section
-          id="about"
-          className="w-full px-6 md:px-12 lg:px-24 xl:px-32 py-16 md:py-24"
-        >
-          <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-sky-500 mb-2">
-            Background
-          </p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-10">
-            About Me
-          </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start max-w-7xl">
-            <div className="space-y-6 text-base md:text-lg font-light text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              <p>
-                I'm a{" "}
-                <strong className="text-zinc-900 dark:text-zinc-100 font-semibold">
-                  fresh Software Engineering graduate
-                </strong>{" "}
-                from HUIT (Ho Chi Minh City University of Industry and Trade),
-                passionate about building systems that are both technically
-                sound and actually useful.
-              </p>
-              <p>
-                I enjoy working across the full stack — from crafting clean UI
-                in React to designing APIs in Spring Boot. I'm always looking
-                for ways to make things faster, simpler, and more reliable.
-              </p>
-              <p>
-                Currently based in{" "}
-                <strong className="text-zinc-900 dark:text-zinc-100 font-semibold">
-                  Ho Chi Minh City
-                </strong>{" "}
-                and actively looking for my first full-time role as a software
-                engineer.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { num: "4+", label: "Projects shipped" },
-                { num: "11", label: "Technologies used" },
-                { num: "Full", label: "Stack developer" },
-                { num: "2026", label: "Fresh graduate" },
-              ].map(({ num, label }) => (
-                <div
-                  key={label}
-                  className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-black/[0.04] dark:border-white/[0.04] shadow-sm"
-                >
-                  <p className="font-display text-4xl font-extrabold text-sky-500">
-                    {num}
-                  </p>
-                  <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mt-2">
-                    {label}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* ── Footer ── */}
-        <footer className="w-full border-t border-black/[0.06] dark:border-white/[0.06] bg-zinc-50 dark:bg-zinc-950 mt-16 transition-colors duration-300">
+        <footer
+          id="footer"
+          className="w-full border-t border-black/[0.06] dark:border-white/[0.06] bg-zinc-50 dark:bg-zinc-950 transition-colors duration-300"
+        >
           <div className="w-full px-6 md:px-12 lg:px-24 xl:px-32 py-16 flex flex-col items-center text-center">
-            <div className="w-14 h-14 rounded-full mb-5 overflow-hidden border-2 border-white dark:border-zinc-800 shadow-md">
+            <div className="w-14 h-14 rounded-full mb-5 overflow-hidden border-2 border-white dark:border-zinc-800 shadow-md bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center text-2xl">
               <img
                 src={avatarImg}
-                alt="Sang (Pham Gnas)"
-                className="w-full h-full object-cover"
+                alt="Pham Thanh Phuoc Sang"
+                className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
               />
             </div>
 
             <p className="font-display text-2xl font-extrabold tracking-tight mb-1 text-zinc-900 dark:text-zinc-100">
-              Sang (Pham Gnas)
+              Pham Thanh Phuoc Sang
+            </p>
+            <p className="font-display text-xl font-extrabold tracking-tight mb-1 text-zinc-900 dark:text-zinc-100">
+              (Gnas Pham)
             </p>
 
             <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-8 max-w-sm">
@@ -873,8 +989,14 @@ export default function Portfolio() {
                     key={link.name}
                     href={link.url}
                     onClick={isEmail ? handleCopyEmail : undefined}
-                    target={isEmail ? undefined : "_blank"}
-                    rel={isEmail ? undefined : "noopener noreferrer"}
+                    target={
+                      isEmail || link.name === "Phone" ? undefined : "_blank"
+                    }
+                    rel={
+                      isEmail || link.name === "Phone"
+                        ? undefined
+                        : "noopener noreferrer"
+                    }
                     className="group flex items-center gap-2.5 px-5 py-2.5 rounded-xl text-sm font-semibold
                     bg-white dark:bg-zinc-900 border border-black/[0.06] dark:border-white/[0.06] shadow-sm
                     text-zinc-600 dark:text-zinc-300
@@ -888,7 +1010,11 @@ export default function Portfolio() {
                     <span
                       className={isEmail && copied ? "text-emerald-500" : ""}
                     >
-                      {isEmail && copied ? "Copied!" : link.name}
+                      {isEmail && copied
+                        ? "Copied!"
+                        : link.name === "Phone"
+                          ? "+84 903 915 722"
+                          : link.name}
                     </span>
                   </a>
                 );
@@ -896,7 +1022,7 @@ export default function Portfolio() {
             </div>
 
             <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500 flex flex-col sm:flex-row items-center gap-1.5">
-              <span>© 2026 Sang (Pham Gnas).</span>
+              <span>© 2026 Pham Thanh Phuoc Sang (Gnas Pham).</span>
               <span className="hidden sm:inline-block">•</span>
               <span>Built with React & Tailwind CSS.</span>
             </p>
