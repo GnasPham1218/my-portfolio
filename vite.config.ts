@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/my-portfolio/', 
+  // Trang chạy ở tên miền riêng https://gnaspham1218.dev nên base là gốc "/"
+  base: "/",
   plugins: [react(), tailwindcss()],
 });

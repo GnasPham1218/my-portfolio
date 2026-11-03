@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<!--
+  Cách xuất PDF: mở file này bằng Chrome/Edge → Ctrl+P → Destination: Save as PDF,
+  Paper size: A4, Margins: Default, bật "Background graphics" → Save.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<title>CV - Pham Thanh Phuoc Sang</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  @page { size: A4; margin: 14mm 15mm 14mm; }
+  :root { --navy: #1f3a8a; --text: #1e293b; --mute: #475569; --link: #2563eb; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Inter", sans-serif; color: var(--text); font-size: 9.4pt; line-height: 1.45; }
+  a { color: var(--link); text-decoration: none; }
+  header { text-align: center; margin-bottom: 12pt; }
+  h1 { font-size: 20pt; letter-spacing: 0.02em; margin: 0; color: #0f1e3d; font-weight: 800; }
+  .title { color: var(--navy); font-weight: 600; font-size: 10pt; margin: 3pt 0 7pt; letter-spacing: 0.06em; }
+  .contact { font-size: 8.4pt; color: var(--mute); display: flex; justify-content: center; flex-wrap: wrap; gap: 4pt 14pt; }
+  .contact a { color: var(--mute); }
+  h2 { font-size: 10.2pt; color: var(--navy); letter-spacing: 0.05em; margin: 14pt 0 7pt; padding-bottom: 4pt; border-bottom: 1.4pt solid var(--navy); font-weight: 700; }
+  p { margin: 0; }
+  .summary { text-align: justify; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12pt; }
+  .row strong { font-size: 10pt; }
+  .date { font-style: italic; color: var(--mute); white-space: nowrap; font-size: 9pt; }
+  .sub { color: var(--mute); }
+  .role { color: var(--navy); font-style: italic; font-weight: 600; font-size: 9pt; }
+  table.skills { border-collapse: collapse; width: 100%; }
+  table.skills td { padding: 3pt 0; vertical-align: top; }
+  table.skills td:first-child { width: 33mm; font-weight: 700; }
+  ul { margin: 3pt 0 0; padding-left: 13pt; }
+  li { margin-bottom: 2.5pt; text-align: justify; }
+  li b { font-weight: 700; }
+  .entry { margin-bottom: 10pt; }
+  h2, h3 { break-after: avoid; }
+  li { break-inside: avoid; }
+  .project-head { break-inside: avoid; }
+  .stack { color: var(--navy); font-style: italic; font-weight: 600; font-size: 8.8pt; margin-top: 1pt; }
+  .links { font-size: 8.6pt; margin: 3pt 0 2pt; display: flex; gap: 10pt; }
+  .soon { color: var(--mute); }
+  h3 { font-size: 8pt; letter-spacing: 0.06em; margin: 6pt 0 0; font-weight: 700; }
+  .project-head { break-after: avoid; }
+  @media screen {
+    html { background: #e5e7eb; }
+    body { width: 210mm; min-height: 297mm; margin: 24px auto; padding: 14mm 15mm; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,.12); }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>PHAM THANH PHUOC SANG</h1>
+  <div class="title">FRESHER FULL-STACK DEVELOPER</div>
+  <div class="contact">
+    <span>Born: Dec 18, 2004</span>
+    <span>Phone: +84 903 915 722</span>
+    <span>Email: <a href="mailto:gnasai1218@gmail.com">gnasai1218@gmail.com</a></span>
+    <a href="https://github.com/GnasPham1218">GitHub</a>
+    <a href="https://www.linkedin.com/in/gnasai1218">LinkedIn</a>
+    <a href="https://gnaspham1218.dev">Portfolio</a>
+    <span>Location: Ho Chi Minh City, Vietnam</span>
+  </div>
+</header>
+
+<h2>SUMMARY</h2>
+<p class="summary">Software Engineering graduate from HUIT focused on full-stack development with Java Spring Boot, React and React Native. I like owning a feature end to end: modelling the data, writing the API and shipping the screen people actually use. Currently building MAIFit, an AI fitness web app, on my own from database design to CI/CD and production deployment.</p>
+
+<h2>EDUCATION</h2>
+<div class="row"><strong>Ho Chi Minh City University of Industry and Trade (HUIT)</strong><span class="date">2022 - 2026</span></div>
+<p class="sub">Bachelor of Software Engineering | GPA 3.3/4.0</p>
+
+<h2>TECHNICAL SKILLS</h2>
+<table class="skills">
+  <tr><td>Languages</td><td>Java, JavaScript, TypeScript, Python</td></tr>
+  <tr><td>Frameworks</td><td>Spring Boot, Spring AI, Spring Security, React, React Native, Tailwind CSS</td></tr>
+  <tr><td>Databases</td><td>PostgreSQL (pgvector), MySQL</td></tr>
+  <tr><td>Tools &amp; DevOps</td><td>Git, GitHub Actions, Docker, Nginx, Linux, Postman</td></tr>
+</table>
+
+<h2>WORK EXPERIENCE</h2>
+<div class="entry">
+  <div class="row"><strong>SaigonLab</strong><span class="date">05/2025 - 07/2025</span></div>
+  <div class="role">AI Research &amp; Technical Writing Intern</div>
+  <ul>
+    <li>Conducted in-depth research on Large Language Models (LLMs) and Generative AI assistants including ChatGPT, GitHub Copilot and DeepSeek to analyze their architecture, technical capabilities and workflow optimizations.</li>
+    <li>Created and structured step-by-step user onboarding guidelines and best-practice manuals tailored for beginners to lower the entry barrier for utilizing AI tools.</li>
+    <li>Authored comprehensive internal documentation, technical reference guides and prompt-engineering playbooks to maximize developers' coding efficiency and problem-solving velocity.</li>
+  </ul>
+</div>
+
+<h2>PROJECTS</h2>
+<div class="entry">
+  <div class="project-head">
+    <div class="row"><strong>MAIFit - AI Fitness Web App (in progress)</strong><span class="date">10/2026 - Present</span></div>
+    <div class="stack">Java 25, Spring Boot 4, Spring AI, React + TypeScript, PostgreSQL + pgvector, Docker, GitHub Actions</div>
+    <div class="links"><a href="https://github.com/GnasPham1218/maifit">GitHub</a><span class="soon">Live app: coming soon</span></div>
+    <p class="sub">Solo Fullstack &amp; DevOps Developer. A personal fitness web app with AI, already running in production.</p>
+  </div>
+  <h3>RESPONSIBILITIES</h3>
+  <ul>
+    <li><b>AI-safe Calorie Logic:</b> Designed calorie logic that doesn't trust the AI: the model only identifies ingredients and estimates grams, while calories always come from a standard foods table (USDA and Vietnam's National Institute of Nutrition), with an ai_grams column to measure the model's error.</li>
+    <li><b>AI Cost Control:</b> Capped AI usage per user with an atomic conditional upsert: a credit is taken before each call and refunded if the call fails, with no race conditions.</li>
+    <li><b>Security:</b> Implemented refresh token rotation that detects reuse of old tokens, stored tokens only as hashes, and added IDOR checks to every API.</li>
+    <li><b>Privacy:</b> Stripped EXIF from private photos, served images only with a JWT, never sent body photos to the AI, and encrypted backups with rclone crypt.</li>
+    <li><b>CI/CD &amp; Infrastructure:</b> Built the full pipeline: GitHub Actions builds images to ghcr.io, the Singapore VPS only pulls and runs them behind Nginx, and Postgres is never exposed publicly.</li>
+  </ul>
+  <h3>KEY FEATURES</h3>
+  <ul>
+    <li><b>Authentication:</b> Sign-up, email verification and password reset, with JWT access and refresh tokens.</li>
+    <li><b>Body Tracking:</b> Profile, TDEE calculation and body check-ins.</li>
+    <li><b>Calorie Tracking (in progress):</b> Meal logging with a monthly calendar and a daily calorie chart.</li>
+    <li><b>Coming Next:</b> Meal photo recognition, rep counting with MediaPipe, a RAG chatbot with chat history, and daily, weekly and monthly leaderboards.</li>
+  </ul>
+</div>
+
+<div class="entry">
+  <div class="project-head">
+    <div class="row"><strong>Organic Food - Multi-platform E-commerce Ecosystem</strong><span class="date">10/2025 - 12/2025</span></div>
+    <div class="stack">Java 17, Spring Boot 3, React 19, React Native (Expo), MySQL, PayOS</div>
+    <div class="links">
+      <a href="https://github.com/vudev1412/Organic-Food">GitHub (Web)</a>
+      <a href="https://github.com/GnasPham1218/Organic_Mobile_App">GitHub (Mobile)</a>
+      <a href="https://drive.google.com/drive/folders/1WK8CZlc5E5fOhbUE0MzXQA5yonfkb-F7">Docs</a>
+    </div>
+    <p class="sub">Team Leader &amp; Fullstack Developer, team of 2.</p>
+  </div>
+  <h3>RESPONSIBILITIES</h3>
+  <ul>
+    <li><b>System &amp; Database Design:</b> Architected the system logic and designed MySQL database schemas to manage products, categories and order data.</li>
+    <li><b>Full-stack Development:</b> Built RESTful APIs with Spring Boot and integrated them with a React frontend to display product catalogs and handle user actions.</li>
+    <li><b>Payment &amp; Communication:</b> Integrated the PayOS automated payment gateway and implemented SMTP email for registration.</li>
+    <li><b>End-to-End Mobile:</b> Independently developed the React Native app from UI/UX design to API integration, covering the entire shopping flow.</li>
+    <li><b>Data Crawling &amp; AI Content:</b> Developed a Python crawler to collect 1,000+ organic product listings (names, images, prices), then used an LLM to generate product and category descriptions, delivering a fully populated catalog from day one.</li>
+  </ul>
+  <h3>KEY FEATURES</h3>
+  <ul>
+    <li><b>Core E-commerce:</b> Product lists, shopping cart and a streamlined checkout process.</li>
+    <li><b>Member &amp; Voucher Management:</b> Member registration, secure login, and viewing and applying discount vouchers.</li>
+    <li><b>Admin Control:</b> Internal dashboard for monitoring transactions, managing inventory and tracking order status.</li>
+    <li><b>Data Integration:</b> Seamless data synchronization between the Spring Boot backend and both web and mobile apps.</li>
+  </ul>
+</div>
+
+<h2>CERTIFICATES</h2>
+<div class="row"><strong>TOEIC Listening &amp; Reading - 750 Score</strong><span class="date">2026</span></div>
+<p class="sub">Educational Testing Service (ETS)</p>
+</body>
+</html>
