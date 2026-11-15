@@ -1,0 +1,163 @@
+% CV - Pham Thanh Phuoc Sang
+% Layout based on Jake Gutierrez's resume template (MIT license).
+% Build: pdflatex cv.tex  (run from the cv/ folder)
+% Then copy cv.pdf to public/CV_-_Pham_Thanh_Phuoc_Sang.pdf for the portfolio download link.
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% A4 page with tight margins
+\usepackage[a4paper,top=0.45in,bottom=0.4in,left=0.4in,right=0.4in]{geometry}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Section formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Make the PDF machine readable (ATS friendly)
+\pdfgentounicode=1
+
+% ───────────── Custom commands ─────────────
+\newcommand{\resumeItem}[1]{\item\small{{#1 \vspace{-2pt}}}}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[3]{
+  \item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \multicolumn{2}{l}{\textit{\small #3}} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+\newcommand{\link}[2]{\href{#1}{\underline{#2}}}
+
+\begin{document}
+
+% ───────────── Heading ─────────────
+\begin{center}
+  \textbf{\Huge Pham Thanh Phuoc Sang} \\ \vspace{1pt}
+  \small Java Backend Developer \quad $|$ \quad Ho Chi Minh City, Vietnam \\ \vspace{1pt}
+  \small +84 903 915 722 $|$
+  \link{mailto:gnasai1218@gmail.com}{gnasai1218@gmail.com} $|$
+  \link{https://gnaspham1218.dev}{gnaspham1218.dev} $|$
+  \link{https://www.linkedin.com/in/gnasai1218}{linkedin.com/in/gnasai1218} $|$
+  \link{https://github.com/GnasPham1218}{github.com/GnasPham1218}
+\end{center}
+
+% ───────────── Summary ─────────────
+\section{Summary}
+\small{Software Engineering graduate (HUIT, 04/2026) focused on Java backend development with Spring Boot and PostgreSQL.
+Built, deployed and operate MAIFit alone: an AI fitness app in production with online payments, CI/CD
+and an A+ security rating on Mozilla Observatory. Comfortable across the stack with React and TypeScript.}
+
+% ───────────── Education ─────────────
+\section{Education}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {Ho Chi Minh City University of Industry and Trade (HUIT)}{Ho Chi Minh City}
+    {Bachelor of Software Engineering; GPA: 3.3/4.0}{2022 -- 04/2026}
+\resumeSubHeadingListEnd
+
+% ───────────── Experience ─────────────
+\section{Experience}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {SaigonLab}{05/2025 -- 07/2025}
+    {AI Research \& Technical Writing Intern}{Ho Chi Minh City}
+    \resumeItemListStart
+      \resumeItem{Researched AI coding assistants (ChatGPT, GitHub Copilot, DeepSeek) and wrote onboarding guides
+        and prompt-engineering playbooks to help developers code faster}
+    \resumeItemListEnd
+\resumeSubHeadingListEnd
+
+% ───────────── Projects ─────────────
+\section{Projects}
+\resumeSubHeadingListStart
+
+  \resumeProjectHeading
+    {MAIFit -- AI Fitness Web App (in progress)}{10/2026 -- Present}
+    {Java 25, Spring Boot 4, Spring AI, PostgreSQL + pgvector, Ollama, React, TypeScript, Docker, GitHub Actions}
+    \resumeItemListStart
+      \resumeItem{Fitness web app built solo and live in production: log meals from a photo, count squats and push-ups with the camera,
+        ask a nutrition chatbot that cites sources, and compete on weekly leaderboards
+        (\link{https://maifit.gnaspham1218.dev}{Live}) (\link{https://github.com/GnasPham1218/maifit}{GitHub})}
+      \resumeItem{AI never produces the numbers users trust: Gemini only names dishes and estimates grams, while calories are computed
+        in code from 330 USDA foods, each traceable to its FoodData Central ID}
+      \resumeItem{Built a RAG chatbot (Spring AI, pgvector, bge-m3) over 450 indexed chunks with hybrid search and citations
+        checked in code; passes 22 of 23 regression questions, including prompt-injection attempts}
+      \resumeItem{Measured real AI cost ($\sim$23 VND per photo scan, $\sim$32 VND per chat) to price a 29,999 VND Premium plan paid via payOS;
+        daily quotas enforced by one atomic SQL upsert, payment webhooks HMAC-verified and idempotent}
+      \resumeItem{Secured and shipped it: rotating refresh tokens with reuse detection, rate limiting, CAPTCHA and a strict CSP
+        (Mozilla Observatory A+); GitHub Actions builds and Trivy-scans images, the VPS only pulls and runs them}
+    \resumeItemListEnd
+
+  \resumeProjectHeading
+    {Organic Food -- Multi-platform E-commerce}{10/2025 -- 12/2025}
+    {Java 17, Spring Boot 3, React 19, React Native (Expo), MySQL, PayOS}
+    \resumeItemListStart
+      \resumeItem{Team leader of 2: designed the system logic and MySQL schemas for products, categories and orders
+        (\link{https://github.com/vudev1412/Organic-Food}{Web}) (\link{https://github.com/GnasPham1218/Organic_Mobile_App}{Mobile})}
+      \resumeItem{Built RESTful APIs with Spring Boot and integrated them with the React web app;
+        integrated the PayOS payment gateway and SMTP email for registration}
+      \resumeItem{Built the entire React Native mobile app alone, from UI/UX design to API integration}
+      \resumeItem{Wrote a Python crawler that collected 1,000+ organic products, then used an LLM to generate product descriptions}
+    \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+% ───────────── Technical Skills ─────────────
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+  \small{\item{
+    \textbf{Languages}{: Java, SQL, TypeScript, Python} \\
+    \textbf{Backend}{: Spring Boot, Spring Security (JWT), Spring Data JPA, Spring AI, JUnit} \\
+    \textbf{Data \& AI}{: PostgreSQL, MySQL, RAG} \\
+    \textbf{Frontend}{: React, React Native, Tailwind CSS} \\
+    \textbf{Tools \& DevOps}{: Git, Docker, GitHub Actions, Nginx, Linux}
+  }}
+\end{itemize}
+
+% ───────────── Certificates ─────────────
+\section{Certificates}
+\begin{itemize}[leftmargin=0.15in, label={}]
+  \small{\item{\textbf{TOEIC Listening \& Reading}{: 750 (ETS, 2026)}}}
+\end{itemize}
+
+\end{document}
