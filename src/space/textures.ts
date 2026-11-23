@@ -19,19 +19,21 @@ function makeCanvas(w: number, h: number) {
   return { canvas, ctx: canvas.getContext("2d")! };
 }
 
-function toTexture(canvas: HTMLCanvasElement) {
+function toTexture(canvas: HTMLCanvasElement, anisotropy = 4) {
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = 4;
+  texture.anisotropy = anisotropy;
   return texture;
 }
 
 /** Banded gas-giant style surface with storms, drawn on a canvas. */
-export function planetTexture([dark, mid, light]: [string, string, string], seed: number) {
+export function planetTexture([dark, mid, light]: [string, string, string], seed: number, scale = 1) {
+  // drawn in a 1024×512 layout; `scale` only raises the pixel count (sharper close-ups in HQ mode)
   const W = 1024;
   const H = 512;
   const rnd = seeded(seed * 9973);
-  const { canvas, ctx } = makeCanvas(W, H);
+  const { canvas, ctx } = makeCanvas(W * scale, H * scale);
+  ctx.scale(scale, scale);
   ctx.fillStyle = dark;
   ctx.fillRect(0, 0, W, H);
 
@@ -66,10 +68,11 @@ export function planetTexture([dark, mid, light]: [string, string, string], seed
   }
   // soften everything
   ctx.globalAlpha = 1;
-  ctx.filter = "blur(2px)";
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.filter = `blur(${2 * scale}px)`;
   ctx.drawImage(canvas, 0, 0);
   ctx.filter = "none";
-  return toTexture(canvas);
+  return toTexture(canvas, scale > 1 ? 16 : 4);
 }
 
 /** Soft round glow with a bright core. */

@@ -27,6 +27,7 @@ html[data-view="space"] { color-scheme: dark; }
 .space-btn:hover { background: rgba(140, 200, 255, 0.16); transform: translateY(-1px); }
 .space-btn.primary { background: #1f6fc4; border-color: #3d8de0; color: #fff; box-shadow: 0 0 24px -6px rgba(61, 141, 224, 0.8); }
 .space-btn.primary:hover { background: #2a7fd8; }
+.space-btn.on { border-color: #ffd27a; color: #ffd27a; box-shadow: 0 0 18px -6px rgba(255, 210, 122, 0.9); }
 .space-btn.lg { min-height: 48px; padding: 0 24px; font-size: 15px; }
 
 /* Station dots */

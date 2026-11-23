@@ -1,6 +1,5 @@
 import { Billboard, Html, Line, PerformanceMonitor, Sparkles, Stars, useCursor } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Bloom, EffectComposer, ToneMapping, Vignette } from "@react-three/postprocessing";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import * as THREE from "three";
 import { ARCH, EXT_NODES, MAIN_NODES, type NodeId } from "../data";
@@ -27,6 +26,8 @@ export interface ScrollState {
 export interface UniverseProps {
   scroll: ScrollState;
   low: boolean;
+  /** high-quality mode picked by the visitor: full resolution, more stars, never auto-lowered */
+  hq?: boolean;
   reduced: boolean;
   onNavigate: (id: StationId) => void;
   hotSkill: string | null;
@@ -73,11 +74,12 @@ const NOISE = /* glsl */ `
     return mix(mix(mix(hash(i), hash(i + vec3(1,0,0)), f.x), mix(hash(i + vec3(0,1,0)), hash(i + vec3(1,1,0)), f.x), f.y),
                mix(mix(hash(i + vec3(0,0,1)), hash(i + vec3(1,0,1)), f.x), mix(hash(i + vec3(0,1,1)), hash(i + vec3(1,1,1)), f.x), f.y), f.z);
   }
-  float fbm(vec3 p) { float v = 0.0; float a = 0.5; for (int i = 0; i < 4; i++) { v += a * noise(p); p *= 2.03; a *= 0.5; } return v; }
+  float fbm(vec3 p) { float v = 0.0; float a = 0.5; for (int i = 0; i < OCTAVES; i++) { v += a * noise(p); p *= 2.03; a *= 0.5; } return v; }
 `;
 
-function sunMaterial() {
+function sunMaterial(octaves = 4) {
   return new THREE.ShaderMaterial({
+    defines: { OCTAVES: octaves },
     uniforms: { uTime: { value: 0 }, uBoost: { value: 1 } },
     toneMapped: false,
     vertexShader: /* glsl */ `
@@ -193,8 +195,8 @@ function AsteroidBelt({ radius, width, count, reduced }: { radius: number; width
 }
 
 // ─── Sun ──────────────────────────────────────────────────────────────────────
-function Sun({ onClick, reduced }: { onClick: () => void; reduced: boolean }) {
-  const mat = useMemo(sunMaterial, []);
+function Sun({ onClick, reduced, hq }: { onClick: () => void; reduced: boolean; hq?: boolean }) {
+  const mat = useMemo(() => sunMaterial(hq ? 6 : 4), [hq]);
   const glow = useMemo(glowTexture, []);
   const [hover, setHover] = useState(false);
   useCursor(hover);
@@ -223,7 +225,7 @@ function Sun({ onClick, reduced }: { onClick: () => void; reduced: boolean }) {
           onClick();
         }}
       >
-        <sphereGeometry args={[SUN_RADIUS, 96, 96]} />
+        <sphereGeometry args={[SUN_RADIUS, hq ? 160 : 96, hq ? 160 : 96]} />
       </mesh>
       <Billboard>
         <mesh>
@@ -235,7 +237,22 @@ function Sun({ onClick, reduced }: { onClick: () => void; reduced: boolean }) {
           <meshBasicMaterial map={glow} color={[0.16, 0.08, 0.035]} transparent depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
         </mesh>
       </Billboard>
-      <pointLight color="#fff4e6" intensity={2.2} decay={0} />
+      {hq ? (
+        // HQ: brighter key light that casts shadows (moons and rings darken as they pass behind a planet)
+        <pointLight
+          color="#fff1dc"
+          intensity={3}
+          decay={0}
+          castShadow
+          shadow-mapSize-width={2048}
+          shadow-mapSize-height={2048}
+          shadow-camera-near={2}
+          shadow-camera-far={80}
+          shadow-bias={-0.002}
+        />
+      ) : (
+        <pointLight color="#fff4e6" intensity={2.2} decay={0} />
+      )}
     </group>
   );
 }
@@ -250,16 +267,18 @@ interface PlanetProps {
   showLabel: boolean;
   onHover: (id: PlanetId, on: boolean) => void;
   onClick: (id: PlanetId) => void;
+  /** high-quality mode: sharper texture, smoother sphere, surface relief */
+  hq?: boolean;
   /** replaces the sphere (used for the Contact satellite) */
   body?: ReactNode;
   children?: ReactNode;
 }
 
-function Planet({ def, anchors, reduced, focused, hovered, showLabel, onHover, onClick, body, children }: PlanetProps) {
+function Planet({ def, anchors, reduced, focused, hovered, showLabel, onHover, onClick, body, children, hq }: PlanetProps) {
   const orbit = useRef<THREE.Group>(null);
   const scaleGroup = useRef<THREE.Group>(null);
   const surface = useRef<THREE.Mesh>(null);
-  const tex = useMemo(() => (body ? null : planetTexture(def.colors, def.orbit)), [def, body]);
+  const tex = useMemo(() => (body ? null : planetTexture(def.colors, def.orbit, hq ? 2 : 1)), [def, body, hq]);
   const atmo = useMemo(() => atmosphereMaterial(def.glow), [def.glow]);
   useCursor(hovered);
 
@@ -313,9 +332,9 @@ function Planet({ def, anchors, reduced, focused, hovered, showLabel, onHover, o
               </mesh>
             </>
           ) : (
-            <mesh ref={surface} {...handlers}>
-              <sphereGeometry args={[def.radius, 64, 64]} />
-              <meshStandardMaterial map={tex} roughness={0.85} metalness={0.05} />
+            <mesh ref={surface} {...handlers} castShadow={hq} receiveShadow={hq}>
+              <sphereGeometry args={[def.radius, hq ? 128 : 64, hq ? 128 : 64]} />
+              <meshStandardMaterial map={tex} bumpMap={hq ? tex : null} bumpScale={hq ? 2.5 : 0} roughness={0.85} metalness={0.05} />
             </mesh>
           )}
           <mesh material={atmo} scale={body ? 1.9 : 1.18}>
@@ -474,6 +493,8 @@ function Moon({
     <group position={position}>
       <group ref={holder}>
         <mesh
+          castShadow
+          receiveShadow
           onPointerOver={(e) => {
             e.stopPropagation();
             setHover(true);
@@ -554,7 +575,7 @@ function LittleMoon({ radius, tilt, color, reduced }: { radius: number; tilt: nu
   return (
     <group rotation={[tilt, 0, 0]}>
       <group ref={spin}>
-        <mesh position={[radius, 0, 0]}>
+        <mesh position={[radius, 0, 0]} castShadow receiveShadow>
           <sphereGeometry args={[0.22, 24, 24]} />
           <meshStandardMaterial color={color} roughness={0.9} />
         </mesh>
@@ -736,7 +757,7 @@ function CameraRig({ scroll, anchors, drag, reduced }: { scroll: ScrollState; an
 
 // ─── Scene ────────────────────────────────────────────────────────────────────
 function Scene(props: UniverseProps) {
-  const { scroll, low, reduced, onNavigate, hotSkill, onHotSkill, selectedArch, onSelectArch, activeStation } = props;
+  const { scroll, low, hq, reduced, onNavigate, hotSkill, onHotSkill, selectedArch, onSelectArch, activeStation } = props;
   const anchors = useMemo<Anchors>(() => ({}), []);
   const drag = useMemo<DragState>(() => ({ yaw: 0, pitch: 0, vYaw: 0, vPitch: 0, down: false, moved: 0, x: 0, y: 0 }), []);
   const [hovered, setHovered] = useState<PlanetId | null>(null);
@@ -753,16 +774,18 @@ function Scene(props: UniverseProps) {
   return (
     <>
       <color attach="background" args={["#02040b"]} />
-      <ambientLight intensity={0.22} />
-      <Stars radius={160} depth={90} count={low ? 2000 : 5000} factor={5} saturation={0.5} fade speed={reduced ? 0 : 0.5} />
+      {/* HQ keeps the night sides dark, so each planet shows a clear day/night line */}
+      <ambientLight intensity={hq ? 0.06 : 0.22} />
+      {hq && <hemisphereLight args={["#6f8cff", "#000000", 0.08]} />}
+      <Stars radius={160} depth={90} count={hq ? 9000 : low ? 2000 : 5000} factor={5} saturation={0.5} fade speed={reduced ? 0 : 0.5} />
       <Nebula low={low} />
-      <Sun onClick={() => onNavigate("hero")} reduced={reduced} />
+      <Sun onClick={() => onNavigate("hero")} reduced={reduced} hq={hq} />
       {!low && <Sparkles count={90} scale={[16, 10, 16]} size={3} speed={reduced ? 0 : 0.25} color="#ffd59a" opacity={0.7} />}
 
       {orbits.map((o) => (
         <Line key={o.id} points={o.pts} color="#8cc8ff" lineWidth={1} transparent opacity={hovered === o.id || activeStation === o.id ? 0.35 : 0.1} />
       ))}
-      <AsteroidBelt radius={22.5} width={1.6} count={low ? 180 : 600} reduced={reduced} />
+      <AsteroidBelt radius={22.5} width={1.6} count={hq ? 1100 : low ? 180 : 600} reduced={reduced} />
 
       {PLANETS.map((def) => {
         const common = {
@@ -774,6 +797,7 @@ function Scene(props: UniverseProps) {
           showLabel: activeStation !== "hero",
           onHover,
           onClick: clickPlanet,
+          hq,
         };
         if (def.id === "skills")
           return (
@@ -821,31 +845,35 @@ function Scene(props: UniverseProps) {
 
       <CameraRig scroll={scroll} anchors={anchors} drag={drag} reduced={reduced} />
 
-      {!low && (
-        <EffectComposer multisampling={0}>
-          <Bloom mipmapBlur intensity={0.75} luminanceThreshold={0.9} luminanceSmoothing={0.25} />
-          <ToneMapping />
-          <Vignette offset={0.22} darkness={0.8} />
-        </EffectComposer>
-      )}
+      {/* no post-processing: the sun keeps its own vivid colour, like a real photo, and it's cheaper to draw */}
     </>
   );
 }
 
 /** The whole solar system: a fixed, full-screen canvas behind the page. */
 export default function Universe(props: UniverseProps) {
-  // drop resolution and bloom automatically when the GPU can't keep up (e.g. integrated graphics)
+  // drop resolution and bloom automatically when the GPU can't keep up (e.g. integrated graphics),
+  // unless the visitor turned on high-quality mode
   const [degraded, setDegraded] = useState(false);
-  const low = props.low || degraded;
+  const hq = !!props.hq;
+  const low = !hq && (props.low || degraded);
   return (
     <Canvas
-      dpr={low ? 1 : [1, 1.25]}
+      key={hq ? "hq" : "std"} // antialias is fixed when the WebGL context is made, so remount on switch
+      shadows={hq}
+      // HQ renders above the screen's own resolution (supersampling), so edges and textures are visibly crisper
+      dpr={hq ? Math.min(3, window.devicePixelRatio * 2) : low ? 1 : [1, 1.25]}
       camera={{ fov: 45, near: 0.1, far: 800, position: [12, 26, 70] }}
-      gl={{ antialias: !low, powerPreference: "high-performance" }}
+      gl={{ antialias: hq || !low, powerPreference: "high-performance" }}
     >
-      <PerformanceMonitor onDecline={() => setDegraded(true)} onIncline={() => setDegraded(false)} flipflops={3} onFallback={() => setDegraded(true)}>
-        <Scene {...props} low={low} />
-      </PerformanceMonitor>
+      {hq ? (
+        <Scene {...props} low={false} hq />
+      ) : (
+        /* one-way: once the scene is lightened it stays that way, so the look never flips back and forth */
+        <PerformanceMonitor onDecline={() => setDegraded(true)} onFallback={() => setDegraded(true)}>
+          <Scene {...props} low={low} />
+        </PerformanceMonitor>
+      )}
     </Canvas>
   );
 }

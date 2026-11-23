@@ -88,6 +88,23 @@ export default function SpacePortfolio({ onClassic }: { onClassic: () => void })
   const [scroll] = useState<ScrollState>(() => ({ p: 0, mobile: false }));
   const [low] = useState(isLowPower);
   const [reduced] = useState(prefersReducedMotion);
+  const [hq, setHq] = useState(() => {
+    try {
+      return localStorage.getItem("quality") === "high";
+    } catch {
+      return false;
+    }
+  });
+  const toggleHq = () => {
+    setHq((on) => {
+      try {
+        localStorage.setItem("quality", on ? "auto" : "high");
+      } catch {
+        /* localStorage unavailable */
+      }
+      return !on;
+    });
+  };
   const [active, setActive] = useState(0);
   const [hotSkill, setHotSkill] = useState<string | null>(null);
   const [selectedArch, setSelectedArch] = useState<NodeId>("spring");
@@ -151,6 +168,7 @@ export default function SpacePortfolio({ onClassic }: { onClassic: () => void })
         <Universe
           scroll={scroll}
           low={low}
+          hq={hq}
           reduced={reduced}
           onNavigate={go}
           hotSkill={hotSkill}
@@ -176,6 +194,15 @@ export default function SpacePortfolio({ onClassic }: { onClassic: () => void })
         <a className="space-btn primary" href={RESUME_URL} target="_blank" rel="noopener noreferrer">
           Résumé
         </a>
+        <button
+          type="button"
+          className={`space-btn${hq ? " on" : ""}`}
+          onClick={toggleHq}
+          aria-pressed={hq}
+          title={hq ? "High quality on: click to go back to automatic quality" : "Turn on high quality (needs a good graphics card)"}
+        >
+          HQ
+        </button>
         <button type="button" className="space-btn" onClick={onClassic} title="Switch to the classic 2D page">
           2D
         </button>
