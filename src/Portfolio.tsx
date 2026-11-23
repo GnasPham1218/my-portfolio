@@ -1,85 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
-const EMAIL = "gnasai1218@gmail.com";
-const RESUME_URL = `${import.meta.env.BASE_URL}CV_-_Pham_Thanh_Phuoc_Sang.pdf`;
-const MAIFIT_URL = "https://maifit.gnaspham1218.dev";
-const MAIFIT_REPO = "https://github.com/GnasPham1218/maifit";
-const GITHUB_URL = "https://github.com/GnasPham1218";
-const LINKEDIN_URL = "https://www.linkedin.com/in/gnasai1218";
-const ICON = (name: string) => `${import.meta.env.BASE_URL}icons/${name}.svg`;
-
-const FACTS = [
-  { label: "Education", value: "HUIT", sub: "Software Engineering · 04/2026" },
-  { label: "GPA", value: "3.3 / 4.0", sub: "Bachelor's degree" },
-  { label: "English", value: "TOEIC 750", sub: "Listening & Reading" },
-  { label: "Currently exploring", value: "RAG & vector search", sub: "Spring AI · pgvector · Ollama" },
-];
-
-const SKILL_GROUPS: { name: string; items: { name: string; icon: string }[] }[] = [
-  {
-    name: "Backend",
-    items: [
-      { name: "Java", icon: ICON("java") },
-      { name: "Spring Boot", icon: ICON("spring") },
-      { name: "Spring Security", icon: ICON("spring") },
-      { name: "Spring Data JPA", icon: ICON("spring") },
-      { name: "Spring AI", icon: ICON("spring") },
-      { name: "JUnit", icon: ICON("junit") },
-    ],
-  },
-  {
-    name: "Data & AI",
-    items: [
-      { name: "SQL", icon: ICON("sql") },
-      { name: "RAG", icon: ICON("rag") },
-    ],
-  },
-  {
-    name: "Frontend",
-    items: [
-      { name: "TypeScript", icon: ICON("typescript") },
-      { name: "React", icon: ICON("react") },
-      { name: "React Native", icon: ICON("react") },
-      { name: "Tailwind CSS", icon: ICON("tailwindcss") },
-    ],
-  },
-  {
-    name: "DevOps",
-    items: [
-      { name: "Docker", icon: ICON("docker") },
-      { name: "GitHub Actions", icon: ICON("githubactions") },
-      { name: "Nginx", icon: ICON("nginx") },
-      { name: "Linux", icon: ICON("linux") },
-      { name: "Git", icon: ICON("git") },
-    ],
-  },
-];
-
-const MAIFIT_TAGS = ["Java 25", "Spring Boot 4", "Spring AI", "PostgreSQL + pgvector", "React", "TypeScript", "Docker"];
-const ORGANIC_TAGS = ["Java 17", "Spring Boot 3", "MySQL", "React 19", "React Native", "payOS"];
-
-type NodeId = "react" | "nginx" | "spring" | "pg" | "ollama" | "gemini" | "payos";
-const ARCH: Record<NodeId, { name: string; sub: string; why: string }> = {
-  react: { name: "React", sub: "TypeScript", why: "Static build served by Nginx in a container. Rep counting runs here with MediaPipe, so no video ever leaves the device." },
-  nginx: { name: "Nginx", sub: "reverse proxy", why: "TLS, rate limits and security headers with a strict CSP, rated A+ on Mozilla Observatory. Only ports 22, 80 and 443 are open." },
-  spring: { name: "Spring Boot", sub: "Java 25", why: "Auth with rotating refresh tokens, daily AI quotas taken by one atomic SQL upsert, payments and the RAG chat pipeline." },
-  pg: { name: "PostgreSQL", sub: "+ pgvector", why: "Business data and vectors in one database: one backup, one migration tool (Flyway). Never published to the internet." },
-  ollama: { name: "Ollama", sub: "bge-m3", why: "Embeddings run on the VPS. bge-m3 was chosen by measuring Vietnamese-question retrieval, not by guessing." },
-  gemini: { name: "Gemini", sub: "vision + chat", why: "Only names dishes and estimates grams. Calories are always computed in code from USDA data, so every number is traceable." },
-  payos: { name: "payOS", sub: "payments", why: "HMAC-verified, idempotent webhooks behind a PaymentProvider interface, with reconciliation when a webhook is lost." },
-};
-const MAIN_NODES: NodeId[] = ["react", "nginx", "spring", "pg"];
-const EXT_NODES: NodeId[] = ["ollama", "gemini", "payos"];
-
-const METRICS: { target: number; format: (n: number) => string; label: string }[] = [
-  { target: 0, format: () => "A+", label: "Mozilla Observatory" },
-  { target: 22, format: (n) => `${n}/23`, label: "chatbot regression eval" },
-  { target: 450, format: (n) => String(n), label: "indexed RAG chunks" },
-  { target: 23, format: (n) => `~${n}đ`, label: "AI cost per photo scan" },
-];
-
-const SECTIONS = ["about", "projects", "contact"] as const;
+import { ARCH, EMAIL, EXT_NODES, FACTS, GITHUB_URL, LINKEDIN_URL, MAIFIT_REPO, MAIFIT_TAGS, MAIFIT_URL, MAIN_NODES, METRICS, ORGANIC_TAGS, RESUME_URL, SECTIONS, SKILL_GROUPS, type NodeId } from "./data";
 
 // ─── Hooks ────────────────────────────────────────────────────────────────────
 const reducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
@@ -349,7 +269,7 @@ function CommandPalette({ open, onClose, commands }: { open: boolean; onClose: (
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
-export default function Portfolio() {
+export default function Portfolio({ onSpace }: { onSpace?: () => void }) {
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -420,6 +340,12 @@ export default function Portfolio() {
             <span className="hide-sm">Search or jump to…</span>
             <span className="kbd hide-sm">Ctrl K</span>
           </button>
+          {onSpace && (
+            <button type="button" className="search-btn" onClick={onSpace} aria-label="Switch to the 3D space view">
+              <span aria-hidden="true">🪐</span>
+              <span className="hide-sm">Space view</span>
+            </button>
+          )}
           <ThemeButton theme={theme} onToggle={toggleTheme} />
         </div>
         <span className="progress" style={{ transform: `scaleX(${progress})` }} aria-hidden="true" />
