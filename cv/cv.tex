@@ -83,9 +83,9 @@
 
 % ───────────── Summary ─────────────
 \section{Summary}
-\small{Software Engineering graduate (HUIT, 04/2026) focused on Java backend development with Spring Boot and PostgreSQL.
+\small{Software Engineering graduate (HUIT, 04/2026) focused on Java backend with Spring Boot and PostgreSQL.
 Built, deployed and operate MAIFit alone: an AI fitness app in production with online payments, CI/CD
-and an A+ security rating on Mozilla Observatory. Comfortable across the stack with React and TypeScript.}
+and an A+ Mozilla Observatory rating.}
 
 % ───────────── Education ─────────────
 \section{Education}
@@ -99,11 +99,11 @@ and an A+ security rating on Mozilla Observatory. Comfortable across the stack w
 \section{Experience}
 \resumeSubHeadingListStart
   \resumeSubheading
-    {SaigonLab}{05/2025 -- 07/2025}
-    {AI Research \& Technical Writing Intern}{Ho Chi Minh City}
+    {AI Research \& Technical Writing Intern}{07/2025 -- 09/2025}
+    {SaigonLab -- tech company building AI/IoT systems and custom web \& mobile software}{Ho Chi Minh City}
     \resumeItemListStart
-      \resumeItem{Researched AI coding assistants (ChatGPT, GitHub Copilot, DeepSeek) and wrote onboarding guides
-        and prompt-engineering playbooks to help developers code faster}
+      \resumeItem{Researched ChatGPT, GitHub Copilot and DeepSeek with another intern and reported to my mentor as beginner
+        guides for non-technical users, covering prompt writing, applying AI to lesson plans and lectures, and the risks of LLM output}
     \resumeItemListEnd
 \resumeSubHeadingListEnd
 
@@ -115,29 +115,30 @@ and an A+ security rating on Mozilla Observatory. Comfortable across the stack w
     {MAIFit -- AI Fitness Web App (in progress)}{10/2026 -- Present}
     {Java 25, Spring Boot 4, Spring AI, PostgreSQL + pgvector, Ollama, React, TypeScript, Docker, GitHub Actions}
     \resumeItemListStart
-      \resumeItem{Fitness web app built solo and live in production: log meals from a photo, count squats and push-ups with the camera,
-        ask a nutrition chatbot that cites sources, and compete on weekly leaderboards
+      \resumeItem{Built and deployed solo a production fitness app with photo meal logging, camera rep counting and a nutrition chatbot,
+        where calories are computed in code from 300+ USDA foods rather than by the LLM, so every number traces to a FoodData Central ID
         (\link{https://maifit.gnaspham1218.dev}{Live}) (\link{https://github.com/GnasPham1218/maifit}{GitHub})}
-      \resumeItem{AI never produces the numbers users trust: Gemini only names dishes and estimates grams, while calories are computed
-        in code from 300+ USDA foods, each traceable to its FoodData Central ID}
-      \resumeItem{Built a RAG chatbot (Spring AI, pgvector, bge-m3) over 450 indexed chunks with hybrid search and citations
-        checked in code; passes 22 of 23 regression questions, including prompt-injection attempts}
-      \resumeItem{Measured real AI cost ($\sim$23 VND per photo scan, $\sim$32 VND per chat) to price a 29,999 VND Premium plan paid via payOS;
-        daily quotas enforced by one atomic SQL upsert, payment webhooks HMAC-verified and idempotent}
-      \resumeItem{Secured and shipped it: rotating refresh tokens with reuse detection, rate limiting, CAPTCHA and a strict CSP
-        (Mozilla Observatory A+); GitHub Actions builds and Trivy-scans images, the VPS only pulls and runs them}
+      \resumeItem{Developed a RAG chatbot over 450 indexed chunks using Spring AI, pgvector and bge-m3 with hybrid search and
+        citations checked in code, passing 22 of 23 regression questions including prompt-injection attempts}
+      \resumeItem{Launched a 29,999 VND Premium plan priced from measured AI cost ($\sim$23 VND per photo scan, $\sim$32 VND per chat),
+        with HMAC-verified, idempotent payOS webhooks and daily quotas enforced by one atomic SQL upsert}
+      \resumeItem{Hardened the app to an A+ Mozilla Observatory rating with rotating refresh tokens and reuse detection, rate limiting,
+        CAPTCHA and a strict CSP; GitHub Actions builds and Trivy-scans images so the VPS only pulls and runs them}
     \resumeItemListEnd
 
   \resumeProjectHeading
-    {Organic Food -- Multi-platform E-commerce}{10/2025 -- 12/2025}
-    {Java 17, Spring Boot 3, React 19, React Native (Expo), MySQL, PayOS}
+    {Organic Food -- Multi-platform E-commerce (graduation project)}{10/2025 -- 12/2025}
+    {Java 17, Spring Boot 3, React 19, React Native (Expo), MySQL, payOS, Python}
     \resumeItemListStart
-      \resumeItem{Team leader of 2: designed the system logic and MySQL schemas for products, categories and orders
+      \resumeItem{Led a team of 2 developers building a customer web, admin web and mobile app covering 13 use cases for 5 roles;
+        split tasks and designed the MySQL schema for products, orders, invoices and returns
         (\link{https://github.com/vudev1412/Organic-Food}{Web}) (\link{https://github.com/GnasPham1218/Organic_Mobile_App}{Mobile})}
-      \resumeItem{Built RESTful APIs with Spring Boot and integrated them with the React web app;
-        integrated the PayOS payment gateway and SMTP email for registration}
-      \resumeItem{Built the entire React Native mobile app alone, from UI/UX design to API integration}
-      \resumeItem{Wrote a Python crawler that collected 1,000+ organic products, then used an LLM to generate product descriptions}
+      \resumeItem{Developed Spring Boot APIs and React pages for sign-up with OTP email verification, password reset, product
+        search and filters, reviews, vouchers and order tracking}
+      \resumeItem{Integrated payOS payments with webhooks that update order status automatically, and built the returns flow with
+        photo evidence and printable invoices with tax breakdown}
+      \resumeItem{Built the entire React Native (Expo) mobile app alone on the shared REST API, and seeded the catalog with
+        1,000+ products collected by a Python crawler with LLM-generated descriptions}
     \resumeItemListEnd
 
 \resumeSubHeadingListEnd
@@ -148,7 +149,7 @@ and an A+ security rating on Mozilla Observatory. Comfortable across the stack w
   \small{\item{
     \textbf{Languages}{: Java, SQL, TypeScript, Python} \\
     \textbf{Backend}{: Spring Boot, Spring Security (JWT), Spring Data JPA (Hibernate), Spring AI, JUnit} \\
-    \textbf{Data \& AI}{: PostgreSQL, MySQL, RAG} \\
+    \textbf{Data \& AI}{: PostgreSQL, pgvector, MySQL, Flyway, RAG, Ollama} \\
     \textbf{Frontend}{: React, React Native, Tailwind CSS} \\
     \textbf{Tools \& DevOps}{: Git, Docker, GitHub Actions, Nginx, Linux}
   }}
