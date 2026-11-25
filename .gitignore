@@ -23,3 +23,11 @@ dist-ssr
 *.sln
 *.sw?
 .backup-3d/
+
+# LaTeX build artifacts (cv/)
+cv/*.aux
+cv/*.out
+cv/*.log
+cv/*.synctex.gz
+cv/*.fls
+cv/*.fdb_latexmk
