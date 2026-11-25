@@ -166,5 +166,5 @@ html[data-view="space"] { color-scheme: dark; }
 
 /* Project bullet points */
 .glass .points { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 8px; }
-.glass .points li { position: relative; padding-left: 20px; line-height: 1.55; opacity: 0.86; }
+.glass .points li { position: relative; padding-left: 20px; line-height: 1.55; color: #e5eef9; font-weight: 500; }
 .glass .points li::before { content: ""; position: absolute; left: 4px; top: 0.68em; width: 6px; height: 6px; border-radius: 50%; background: #8cc8ff; box-shadow: 0 0 8px #4aa8ff; }

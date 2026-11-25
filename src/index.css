@@ -328,5 +328,5 @@ button.kbd { min-height: 32px; padding: 0 10px; cursor: pointer; }
 
 /* Project bullet points */
 .points { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.points li { position: relative; padding-left: 20px; line-height: 1.55; color: var(--mute); }
+.points li { position: relative; padding-left: 20px; line-height: 1.55; color: var(--text); font-weight: 500; }
 .points li::before { content: ""; position: absolute; left: 4px; top: 0.68em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-text); }
