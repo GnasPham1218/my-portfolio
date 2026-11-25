@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ARCH, EMAIL, EXT_NODES, FACTS, GITHUB_URL, LINKEDIN_URL, MAIFIT_REPO, MAIFIT_TAGS, MAIFIT_URL, MAIN_NODES, METRICS, ORGANIC_TAGS, RESUME_URL, SECTIONS, SKILL_GROUPS, type NodeId } from "./data";
+import { ARCH, EMAIL, EXT_NODES, FACTS, GITHUB_URL, LINKEDIN_URL, MAIFIT_PERIOD, MAIFIT_POINTS, MAIFIT_REPO, MAIFIT_SUMMARY, MAIFIT_TAGS, MAIFIT_URL, MAIN_NODES, METRICS, ORGANIC_LINKS, ORGANIC_PERIOD, ORGANIC_POINTS, ORGANIC_SUMMARY, ORGANIC_TAGS, RESUME_URL, SECTIONS, SKILL_GROUPS, type NodeId } from "./data";
 
 // ─── Hooks ────────────────────────────────────────────────────────────────────
 const reducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
@@ -460,7 +460,7 @@ export default function Portfolio({ onSpace }: { onSpace?: () => void }) {
             <div className="maifit-info">
               <div className="badges">
                 <span className="badge solid">Featured</span>
-                <span className="badge soft">In progress · 10/2026 – now</span>
+                <span className="badge soft">In progress · {MAIFIT_PERIOD}</span>
               </div>
               <div className="maifit-title">
                 <img src={`${import.meta.env.BASE_URL}maifit-logo.svg`} alt="MAIFit logo" width="64" height="64" />
@@ -472,11 +472,10 @@ export default function Portfolio({ onSpace }: { onSpace?: () => void }) {
                 </div>
               </div>
               <p className="role">Solo Backend, Frontend &amp; DevOps Developer</p>
-              <p>
-                An AI fitness web app in production: log meals from a photo, count reps with the camera, ask a nutrition chatbot that cites its
-                sources, and compete on weekly leaderboards. AI only recognises things; every number users rely on is calculated in code from real
-                data.
-              </p>
+              <p>{MAIFIT_SUMMARY}</p>
+              <ul className="points">
+                {MAIFIT_POINTS.map((t) => <li key={t}>{t}</li>)}
+              </ul>
               <ul className="tags">
                 {MAIFIT_TAGS.map((t) => <li key={t}>{t}</li>)}
               </ul>
@@ -510,28 +509,23 @@ export default function Portfolio({ onSpace }: { onSpace?: () => void }) {
           {/* Organic Food */}
           <article className="tile reveal pad organic">
             <div className="organic-top">
-              <span className="badge outline">Local build · 10/2025 – 12/2025</span>
+              <span className="badge outline">Local build · {ORGANIC_PERIOD}</span>
               <span className="small mute">Team leader · team of 2</span>
             </div>
             <h3>Organic Food Ecosystem</h3>
-            <p className="mute">
-              Web + mobile e-commerce: a Spring Boot backend with an admin dashboard, a React customer site and an Expo / React Native app. I
-              designed the schema, built the APIs, integrated payOS and built the mobile app alone.
-            </p>
+            <p>{ORGANIC_SUMMARY}</p>
+            <ul className="points">
+              {ORGANIC_POINTS.map((t) => <li key={t}>{t}</li>)}
+            </ul>
             <ul className="tags">
               {ORGANIC_TAGS.map((t) => <li key={t}>{t}</li>)}
             </ul>
             <div className="actions">
-              <a className="btn ghost sm" href="https://github.com/vudev1412/Organic-Food" target="_blank" rel="noopener noreferrer">Web repo</a>
-              <a className="btn ghost sm" href="https://github.com/GnasPham1218/Organic_Mobile_App" target="_blank" rel="noopener noreferrer">Mobile repo</a>
-              <a
-                className="btn ghost sm"
-                href="https://drive.google.com/drive/folders/1WK8CZlc5E5fOhbUE0MzXQA5yonfkb-F7?usp=drive_link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Docs
-              </a>
+              {ORGANIC_LINKS.map((l) => (
+                <a key={l.label} className="btn ghost sm" href={l.href} target="_blank" rel="noopener noreferrer">
+                  {l.label}
+                </a>
+              ))}
             </div>
           </article>
         </section>

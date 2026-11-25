@@ -15,13 +15,21 @@ export const FACTS = [
   { label: "Currently exploring", value: "RAG & vector search", sub: "Spring AI · pgvector · Ollama" },
 ];
 
+// Mirrors the "Technical Skills" section of the CV.
 export const SKILL_GROUPS: { name: string; items: { name: string; icon: string }[] }[] = [
+  {
+    name: "Languages",
+    items: [
+      { name: "Java", icon: ICON("java") },
+      { name: "TypeScript", icon: ICON("typescript") },
+      { name: "Python", icon: ICON("python") },
+    ],
+  },
   {
     name: "Backend",
     items: [
-      { name: "Java", icon: ICON("java") },
       { name: "Spring Boot", icon: ICON("spring") },
-      { name: "Spring Security", icon: ICON("spring") },
+      { name: "Spring Security (JWT)", icon: ICON("spring") },
       { name: "Spring Data JPA (Hibernate)", icon: ICON("spring") },
       { name: "Spring AI", icon: ICON("spring") },
       { name: "JUnit", icon: ICON("junit") },
@@ -30,33 +38,65 @@ export const SKILL_GROUPS: { name: string; items: { name: string; icon: string }
   {
     name: "Data & AI",
     items: [
-      { name: "SQL", icon: ICON("sql") },
+      { name: "PostgreSQL", icon: ICON("postgresql") },
+      { name: "pgvector", icon: ICON("postgresql") },
+      { name: "MySQL", icon: ICON("mysql") },
+      { name: "Flyway", icon: ICON("flyway") },
       { name: "RAG", icon: ICON("rag") },
+      { name: "Ollama", icon: ICON("ollama") },
     ],
   },
   {
     name: "Frontend",
     items: [
-      { name: "TypeScript", icon: ICON("typescript") },
       { name: "React", icon: ICON("react") },
       { name: "React Native", icon: ICON("react") },
       { name: "Tailwind CSS", icon: ICON("tailwindcss") },
     ],
   },
   {
-    name: "DevOps",
+    name: "Tools & DevOps",
     items: [
+      { name: "Git", icon: ICON("git") },
       { name: "Docker", icon: ICON("docker") },
       { name: "GitHub Actions", icon: ICON("githubactions") },
       { name: "Nginx", icon: ICON("nginx") },
       { name: "Linux", icon: ICON("linux") },
-      { name: "Git", icon: ICON("git") },
     ],
   },
 ];
 
-export const MAIFIT_TAGS = ["Java 25", "Spring Boot 4", "Spring AI", "PostgreSQL + pgvector", "React", "TypeScript", "Docker"];
-export const ORGANIC_TAGS = ["Java 17", "Spring Boot 3", "MySQL", "React 19", "React Native", "payOS"];
+// Project content mirrors the latest CV (public/CV_-_Pham_Thanh_Phuoc_Sang.pdf) — update both together.
+export const MAIFIT_PERIOD = "10/2026 – now";
+export const MAIFIT_SUMMARY = "A production AI fitness web app I built and deployed solo.";
+export const MAIFIT_POINTS = [
+  "Log meals from a photo, count reps with the camera and ask a nutrition chatbot that cites its sources.",
+  "Calories are computed in code from 300+ USDA foods, not by the LLM, so every number traces to a FoodData Central ID.",
+  "RAG chatbot over 450 indexed chunks (Spring AI, pgvector, bge-m3) with hybrid search and citations checked in code.",
+  "29,999 VND Premium plan priced from measured AI cost, paid through HMAC-verified, idempotent payOS webhooks.",
+  "A+ on Mozilla Observatory; GitHub Actions builds and Trivy-scans images, the VPS only pulls and runs them.",
+];
+export const MAIFIT_TAGS = [
+  "Java 25",
+  "Spring Boot 4",
+  "Spring AI",
+  "PostgreSQL + pgvector",
+  "Ollama",
+  "React",
+  "TypeScript",
+  "Docker",
+  "GitHub Actions",
+];
+
+export const ORGANIC_PERIOD = "10/2025 – 12/2025";
+export const ORGANIC_SUMMARY = "A customer web, admin web and mobile app covering 13 use cases for 5 roles.";
+export const ORGANIC_POINTS = [
+  "Led a team of 2, split the tasks and designed the MySQL schema for products, orders, invoices and returns.",
+  "Built Spring Boot APIs and React pages for OTP sign-up, password reset, product search and filters, reviews, vouchers and order tracking.",
+  "Integrated payOS with webhooks that update order status automatically; built returns with photo evidence and printable tax invoices.",
+  "Built the whole React Native (Expo) app alone and seeded 1,000+ products with a Python crawler and LLM-written descriptions.",
+];
+export const ORGANIC_TAGS = ["Java 17", "Spring Boot 3", "React 19", "React Native (Expo)", "MySQL", "payOS", "Python"];
 
 export type NodeId = "react" | "nginx" | "spring" | "pg" | "ollama" | "gemini" | "payos";
 export const ARCH: Record<NodeId, { name: string; sub: string; why: string }> = {

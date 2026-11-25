@@ -57,10 +57,11 @@ export const PLANETS: PlanetDef[] = [
 
 // ─── Skill belts around the Skills planet ────────────────────────────────────
 export const GROUP_COLORS: Record<string, string> = {
+  Languages: "#fb923c",
   Backend: "#6db33f",
   "Data & AI": "#f2b33d",
   Frontend: "#38bdf8",
-  DevOps: "#f472b6",
+  "Tools & DevOps": "#f472b6",
 };
 
 export interface OrbitItem {

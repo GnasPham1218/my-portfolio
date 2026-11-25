@@ -6,12 +6,18 @@ import {
   FACTS,
   GITHUB_URL,
   LINKEDIN_URL,
+  MAIFIT_PERIOD,
+  MAIFIT_POINTS,
   MAIFIT_REPO,
+  MAIFIT_SUMMARY,
   MAIFIT_TAGS,
   MAIFIT_URL,
   MAIN_NODES,
   METRICS,
   ORGANIC_LINKS,
+  ORGANIC_PERIOD,
+  ORGANIC_POINTS,
+  ORGANIC_SUMMARY,
   ORGANIC_TAGS,
   RESUME_URL,
   SKILL_GROUPS,
@@ -316,13 +322,15 @@ export default function SpacePortfolio({ onClassic }: { onClassic: () => void })
                 <h2>
                   M<span className="accent">AI</span>Fit
                 </h2>
-                <p className="mute small">Live in production · solo backend, frontend &amp; DevOps</p>
+                <p className="mute small">Live in production · in progress, {MAIFIT_PERIOD} · solo backend, frontend &amp; DevOps</p>
               </div>
             </div>
-            <p>
-              An AI fitness web app: log meals from a photo, count reps with the camera, ask a nutrition chatbot that cites its sources, and
-              compete on weekly leaderboards. AI only recognises things; every number users rely on is calculated in code from real data.
-            </p>
+            <p>{MAIFIT_SUMMARY}</p>
+            <ul className="points">
+              {MAIFIT_POINTS.map((t) => (
+                <li key={t}>{t}</li>
+              ))}
+            </ul>
             <ul className="tags">
               {MAIFIT_TAGS.map((t) => (
                 <li key={t}>{t}</li>
@@ -376,11 +384,13 @@ export default function SpacePortfolio({ onClassic }: { onClassic: () => void })
           <div className="glass">
             <span className="kicker">// planet 04 · graduation project</span>
             <h2>Organic Food Ecosystem</h2>
-            <p className="mute small">Team leader · team of 2 · 10/2025 – 12/2025</p>
-            <p className="mute">
-              Web + mobile e-commerce: a Spring Boot backend with an admin dashboard, a React customer site and an Expo / React Native app. I
-              designed the schema, built the APIs, integrated payOS and built the mobile app alone.
-            </p>
+            <p className="mute small">Team leader · team of 2 · {ORGANIC_PERIOD}</p>
+            <p>{ORGANIC_SUMMARY}</p>
+            <ul className="points">
+              {ORGANIC_POINTS.map((t) => (
+                <li key={t}>{t}</li>
+              ))}
+            </ul>
             <ul className="tags">
               {ORGANIC_TAGS.map((t) => (
                 <li key={t}>{t}</li>
